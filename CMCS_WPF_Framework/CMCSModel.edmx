@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CMCSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Claims">
+          <Key>
+            <PropertyRef Name="ClaimID" />
+          </Key>
+          <Property Name="ClaimID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LecturerID" Type="int" />
+          <Property Name="HoursWorked" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="HourlyRate" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TotalAmount" Type="decimal" Precision="21" Scale="4" StoreGeneratedPattern="Computed" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="DateSubmitted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Lecturers">
+          <Key>
+            <PropertyRef Name="LecturerID" />
+          </Key>
+          <Property Name="LecturerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="HourlyRate" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="SupportingDocuments">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+          </Key>
+          <Property Name="DocumentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClaimID" Type="int" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="300" />
+          <Property Name="UploadDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Claims__Lecturer__4BAC3F29">
+          <End Role="Lecturers" Type="Self.Lecturers" Multiplicity="0..1" />
+          <End Role="Claims" Type="Self.Claims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lecturers">
+              <PropertyRef Name="LecturerID" />
+            </Principal>
+            <Dependent Role="Claims">
+              <PropertyRef Name="LecturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supportin__Claim__5070F446">
+          <End Role="Claims" Type="Self.Claims" Multiplicity="0..1" />
+          <End Role="SupportingDocuments" Type="Self.SupportingDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Claims">
+              <PropertyRef Name="ClaimID" />
+            </Principal>
+            <Dependent Role="SupportingDocuments">
+              <PropertyRef Name="ClaimID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CMCSDBModelStoreContainer">
+          <EntitySet Name="Claims" EntityType="Self.Claims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lecturers" EntityType="Self.Lecturers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportingDocuments" EntityType="Self.SupportingDocuments" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Claims__Lecturer__4BAC3F29" Association="Self.FK__Claims__Lecturer__4BAC3F29">
+            <End Role="Lecturers" EntitySet="Lecturers" />
+            <End Role="Claims" EntitySet="Claims" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supportin__Claim__5070F446" Association="Self.FK__Supportin__Claim__5070F446">
+            <End Role="Claims" EntitySet="Claims" />
+            <End Role="SupportingDocuments" EntitySet="SupportingDocuments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CMCSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Claim">
+          <Key>
+            <PropertyRef Name="ClaimID" />
+          </Key>
+          <Property Name="ClaimID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LecturerID" Type="Int32" />
+          <Property Name="HoursWorked" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="HourlyRate" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="21" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DateSubmitted" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Lecturer" Relationship="Self.FK__Claims__Lecturer__4BAC3F29" FromRole="Claims" ToRole="Lecturers" />
+          <NavigationProperty Name="SupportingDocuments" Relationship="Self.FK__Supportin__Claim__5070F446" FromRole="Claims" ToRole="SupportingDocuments" />
+        </EntityType>
+        <EntityType Name="Lecturer">
+          <Key>
+            <PropertyRef Name="LecturerID" />
+          </Key>
+          <Property Name="LecturerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HourlyRate" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Claims" Relationship="Self.FK__Claims__Lecturer__4BAC3F29" FromRole="Lecturers" ToRole="Claims" />
+        </EntityType>
+        <EntityType Name="SupportingDocument">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+          </Key>
+          <Property Name="DocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClaimID" Type="Int32" />
+          <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UploadDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Claim" Relationship="Self.FK__Supportin__Claim__5070F446" FromRole="SupportingDocuments" ToRole="Claims" />
+        </EntityType>
+        <Association Name="FK__Claims__Lecturer__4BAC3F29">
+          <End Role="Lecturers" Type="Self.Lecturer" Multiplicity="0..1" />
+          <End Role="Claims" Type="Self.Claim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lecturers">
+              <PropertyRef Name="LecturerID" />
+            </Principal>
+            <Dependent Role="Claims">
+              <PropertyRef Name="LecturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supportin__Claim__5070F446">
+          <End Role="Claims" Type="Self.Claim" Multiplicity="0..1" />
+          <End Role="SupportingDocuments" Type="Self.SupportingDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Claims">
+              <PropertyRef Name="ClaimID" />
+            </Principal>
+            <Dependent Role="SupportingDocuments">
+              <PropertyRef Name="ClaimID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CMCSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Claims" EntityType="Self.Claim" />
+          <EntitySet Name="Lecturers" EntityType="Self.Lecturer" />
+          <EntitySet Name="SupportingDocuments" EntityType="Self.SupportingDocument" />
+          <AssociationSet Name="FK__Claims__Lecturer__4BAC3F29" Association="Self.FK__Claims__Lecturer__4BAC3F29">
+            <End Role="Lecturers" EntitySet="Lecturers" />
+            <End Role="Claims" EntitySet="Claims" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supportin__Claim__5070F446" Association="Self.FK__Supportin__Claim__5070F446">
+            <End Role="Claims" EntitySet="Claims" />
+            <End Role="SupportingDocuments" EntitySet="SupportingDocuments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CMCSDBModelStoreContainer" CdmEntityContainer="CMCSDBEntities">
+          <EntitySetMapping Name="Claims">
+            <EntityTypeMapping TypeName="CMCSDBModel.Claim">
+              <MappingFragment StoreEntitySet="Claims">
+                <ScalarProperty Name="ClaimID" ColumnName="ClaimID" />
+                <ScalarProperty Name="LecturerID" ColumnName="LecturerID" />
+                <ScalarProperty Name="HoursWorked" ColumnName="HoursWorked" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateSubmitted" ColumnName="DateSubmitted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lecturers">
+            <EntityTypeMapping TypeName="CMCSDBModel.Lecturer">
+              <MappingFragment StoreEntitySet="Lecturers">
+                <ScalarProperty Name="LecturerID" ColumnName="LecturerID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportingDocuments">
+            <EntityTypeMapping TypeName="CMCSDBModel.SupportingDocument">
+              <MappingFragment StoreEntitySet="SupportingDocuments">
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="ClaimID" ColumnName="ClaimID" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
