@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace CMCS_WPF_Framework
 {
-    /// <summary>
-    /// Interaction logic for LecturerPortal.xaml
-    /// </summary>
     public partial class LecturerPortal : Window
     {
         public LecturerPortal()
@@ -24,18 +21,20 @@ namespace CMCS_WPF_Framework
             InitializeComponent();
         }
 
-        // This is the logic for your Back button
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void SubmitClaim_Click(object sender, RoutedEventArgs e)
         {
-            // Create a new MainWindow instance
-            MainWindow main = new MainWindow();
-
-            // Show the Main Menu again
-            main.Show();
-
-            // Close the current Lecturer Portal window
+            // Open the Lecturer Claim Form
+            LecturerClaimForm form = new LecturerClaimForm();
+            form.Show();
             this.Close();
         }
 
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            // Go back to Main Menu
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
+        }
     }
 }

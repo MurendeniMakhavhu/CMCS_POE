@@ -21,6 +21,13 @@
             <Button Content="← Back to Main Menu"
                     Height="40" Margin="20,40,20,0"
                     Click="Back_Click"/>
+
+            <Button Content="Submit Claim"
+        Height="40"
+        Margin="5"
+        Click="SubmitClaim_Click"/>
+
+
         </StackPanel>
     </Grid>
 </Window>

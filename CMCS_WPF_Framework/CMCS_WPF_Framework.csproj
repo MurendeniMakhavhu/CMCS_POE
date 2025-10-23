@@ -82,6 +82,9 @@
     <Compile Include="Lecturer.cs">
       <DependentUpon>CMCSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="LecturerClaimForm.xaml.cs">
+      <DependentUpon>LecturerClaimForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LecturerPortal.xaml.cs">
       <DependentUpon>LecturerPortal.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
       <DependentUpon>CMCSModel.tt</DependentUpon>
     </Compile>
     <Page Include="CoordinatorPortal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LecturerClaimForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
