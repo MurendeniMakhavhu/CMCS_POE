@@ -24,5 +24,21 @@ namespace CMCS_WPF_Framework
         {
             InitializeComponent();
         }
+
+        private void Lecturer_Click(object sender, RoutedEventArgs e)
+        {
+            LecturerPortal lecturerPortal = new LecturerPortal();
+            lecturerPortal.Show();
+            this.Close();
+        }
+
+        private void Coordinator_Click(object sender, RoutedEventArgs e)
+        {
+            CoordinatorPortal coordinatorPortal = new CoordinatorPortal();
+            coordinatorPortal.Show();
+            this.Close();
+        }
+
     }
 }
+
