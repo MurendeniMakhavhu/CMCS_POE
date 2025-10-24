@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CMCSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CMCSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Claims">
           <Key>
             <PropertyRef Name="ClaimID" />
@@ -16,6 +16,8 @@
           <Property Name="TotalAmount" Type="decimal" Precision="21" Scale="4" StoreGeneratedPattern="Computed" />
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
           <Property Name="DateSubmitted" Type="datetime" />
+          <Property Name="LecturerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SupportingDocumentPath" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Lecturers">
           <Key>
@@ -75,8 +77,7 @@
             <End Role="SupportingDocuments" EntitySet="SupportingDocuments" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CMCSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -93,6 +94,8 @@
           <Property Name="DateSubmitted" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Lecturer" Relationship="Self.FK__Claims__Lecturer__4BAC3F29" FromRole="Claims" ToRole="Lecturers" />
           <NavigationProperty Name="SupportingDocuments" Relationship="Self.FK__Supportin__Claim__5070F446" FromRole="Claims" ToRole="SupportingDocuments" />
+          <Property Name="LecturerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SupportingDocumentPath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Lecturer">
           <Key>
@@ -163,6 +166,8 @@
           <EntitySetMapping Name="Claims">
             <EntityTypeMapping TypeName="CMCSDBModel.Claim">
               <MappingFragment StoreEntitySet="Claims">
+                <ScalarProperty Name="SupportingDocumentPath" ColumnName="SupportingDocumentPath" />
+                <ScalarProperty Name="LecturerName" ColumnName="LecturerName" />
                 <ScalarProperty Name="ClaimID" ColumnName="ClaimID" />
                 <ScalarProperty Name="LecturerID" ColumnName="LecturerID" />
                 <ScalarProperty Name="HoursWorked" ColumnName="HoursWorked" />

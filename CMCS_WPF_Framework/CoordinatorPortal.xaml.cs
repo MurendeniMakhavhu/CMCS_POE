@@ -17,7 +17,6 @@ namespace CMCS_WPF_Framework
     public partial class CoordinatorPortal : Window
     {
         private CMCSDBEntities _context = new CMCSDBEntities();
-        private List<Claim> _claims;
 
         public CoordinatorPortal()
         {
@@ -26,55 +25,35 @@ namespace CMCS_WPF_Framework
 
         private void ViewPendingClaims_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Get all pending claims from the database
-                _claims = _context.Claims
-                    .Where(c => c.Status == "Pending")
-                    .ToList();
+            var pendingClaims = _context.Claims
+                .Where(c => c.Status == "Pending")
+                .ToList();
 
-                if (_claims.Count == 0)
-                {
-                    MessageBox.Show("No pending claims found.");
-                    return;
-                }
-
-                ClaimsDataGrid.ItemsSource = _claims;
-                ClaimsDataGrid.Visibility = Visibility.Visible;
-            }
-            catch
-            {
-                MessageBox.Show("⚠️ Error loading claims. Check your database connection.");
-            }
+            ClaimsDataGrid.ItemsSource = pendingClaims;
+            ClaimsDataGrid.Visibility = Visibility.Visible;
         }
 
         private void Approve_Click(object sender, RoutedEventArgs e)
         {
-            if (ClaimsDataGrid.SelectedItem is Claim selectedClaim)
+            var claim = (sender as Button).DataContext as Claim;
+            if (claim != null)
             {
-                selectedClaim.Status = "Approved";
+                claim.Status = "Approved";
                 _context.SaveChanges();
                 MessageBox.Show("✅ Claim approved!");
-                ViewPendingClaims_Click(sender, e); // Refresh grid
-            }
-            else
-            {
-                MessageBox.Show("Please select a claim first.");
+                ViewPendingClaims_Click(null, null); // Refresh list
             }
         }
 
         private void Reject_Click(object sender, RoutedEventArgs e)
         {
-            if (ClaimsDataGrid.SelectedItem is Claim selectedClaim)
+            var claim = (sender as Button).DataContext as Claim;
+            if (claim != null)
             {
-                selectedClaim.Status = "Rejected";
+                claim.Status = "Rejected";
                 _context.SaveChanges();
-                MessageBox.Show("❌ Claim rejected.");
-                ViewPendingClaims_Click(sender, e);
-            }
-            else
-            {
-                MessageBox.Show("Please select a claim first.");
+                MessageBox.Show("❌ Claim rejected!");
+                ViewPendingClaims_Click(null, null); // Refresh list
             }
         }
 

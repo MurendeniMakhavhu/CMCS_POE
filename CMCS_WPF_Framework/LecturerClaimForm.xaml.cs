@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,11 +17,11 @@ using Microsoft.Win32;
 
 namespace CMCS_WPF_Framework
 {
-    /// <summary>
-    /// Interaction logic for LecturerClaimForm.xaml
-    /// </summary>
     public partial class LecturerClaimForm : Window
     {
+        private CMCSDBEntities _context = new CMCSDBEntities();
+        private string _uploadedFilePath = null;
+
         public LecturerClaimForm()
         {
             InitializeComponent();
@@ -27,19 +29,58 @@ namespace CMCS_WPF_Framework
 
         private void Upload_Click(object sender, RoutedEventArgs e)
         {
-            // File dialog to pick supporting document
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Documents|*.pdf;*.docx;*.xlsx";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Documents (*.pdf;*.docx;*.xlsx)|*.pdf;*.docx;*.xlsx",
+                Title = "Select Supporting Document"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                txtFileName.Text = System.IO.Path.GetFileName(openFileDialog.FileName);
+                string projectFolder = AppDomain.CurrentDomain.BaseDirectory;
+                string uploadFolder = System.IO.Path.Combine(projectFolder, "Uploads");
+
+                if (!Directory.Exists(uploadFolder))
+                {
+                    Directory.CreateDirectory(uploadFolder);
+                }
+
+                string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
+                string destination = System.IO.Path.Combine(uploadFolder, fileName);
+
+                File.Copy(openFileDialog.FileName, destination, true);
+
+                _uploadedFilePath = destination;
+                lblFileName.Text = fileName;
+
+                MessageBox.Show("📎 File uploaded successfully!");
             }
         }
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Claim submitted successfully! (Prototype only)");
+            try
+            {
+                 var claim = new Claim
+                {
+                    LecturerName = txtLecturerName.Text,
+                    HoursWorked = Convert.ToDecimal(txtHours.Text),
+                    HourlyRate = Convert.ToDecimal(txtRate.Text),
+                    Status = "Pending",
+                    SupportingDocumentPath = _uploadedFilePath
+                };
+
+
+                _context.Claims.Add(claim);
+                _context.SaveChanges();
+
+                MessageBox.Show("✅ Claim submitted successfully!");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error submitting claim: {ex.Message}");
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -48,6 +89,5 @@ namespace CMCS_WPF_Framework
             lecturerPortal.Show();
             this.Close();
         }
-
     }
 }

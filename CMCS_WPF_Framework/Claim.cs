@@ -27,6 +27,8 @@ namespace CMCS_WPF_Framework
         public Nullable<decimal> TotalAmount { get; set; }
         public string Status { get; set; }
         public Nullable<System.DateTime> DateSubmitted { get; set; }
+        public string LecturerName { get; set; }
+        public string SupportingDocumentPath { get; set; }
     
         public virtual Lecturer Lecturer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

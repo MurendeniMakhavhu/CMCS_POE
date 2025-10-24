@@ -85,6 +85,9 @@
     <Compile Include="LecturerClaimForm.xaml.cs">
       <DependentUpon>LecturerClaimForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LecturerClaimsList.xaml.cs">
+      <DependentUpon>LecturerClaimsList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LecturerPortal.xaml.cs">
       <DependentUpon>LecturerPortal.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LecturerClaimForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LecturerClaimsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

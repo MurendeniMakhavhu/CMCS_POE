@@ -11,7 +11,7 @@
                        Margin="0,0,0,20"
                        HorizontalAlignment="Center"/>
 
-            <!-- View Claims -->
+            <!-- View Pending Claims -->
             <Button Content="View Pending Claims"
                     Height="40" Margin="5"
                     Click="ViewPendingClaims_Click"/>
@@ -20,25 +20,29 @@
             <DataGrid x:Name="ClaimsDataGrid"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
-                      Height="250" Margin="0,10,0,10"
-                      Visibility="Collapsed">
+                      Height="300" Margin="0,10,0,10"
+                      Visibility="Collapsed"
+                      IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Claim ID" Binding="{Binding ClaimID}" Width="100"/>
-                    <DataGridTextColumn Header="Lecturer Name" Binding="{Binding LecturerName}" Width="200"/>
-                    <DataGridTextColumn Header="Hours" Binding="{Binding HoursWorked}" Width="100"/>
-                    <DataGridTextColumn Header="Rate" Binding="{Binding HourlyRate}" Width="100"/>
+                    <DataGridTextColumn Header="Claim ID" Binding="{Binding ClaimID}" Width="80"/>
+                    <DataGridTextColumn Header="Lecturer Name" Binding="{Binding LecturerName}" Width="150"/>
+                    <DataGridTextColumn Header="Hours" Binding="{Binding HoursWorked}" Width="80"/>
+                    <DataGridTextColumn Header="Rate" Binding="{Binding HourlyRate}" Width="80"/>
                     <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+
+                    <!-- Action Buttons per row -->
+                    <DataGridTemplateColumn Header="Actions" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="Approve" Width="65" Margin="2" Click="Approve_Click"/>
+                                    <Button Content="Reject" Width="65" Margin="2" Click="Reject_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Approve"
-                        Width="120" Height="35" Margin="10"
-                        Click="Approve_Click"/>
-                <Button Content="Reject"
-                        Width="120" Height="35" Margin="10"
-                        Click="Reject_Click"/>
-            </StackPanel>
 
             <Button Content="← Back to Main Menu"
                     Height="40" Margin="20,40,20,0"
